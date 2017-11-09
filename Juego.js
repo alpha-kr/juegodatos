@@ -20,7 +20,7 @@ var principalV={
       juego.load.spritesheet('barriles','assets/barril1.png',37,42);
 
       //pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-      //juego.load.spritesheet('dkwalk','assets/dktileset1.png',49,50);
+      juego.load.spritesheet('dkwalk','assets/dktileset1.png',49,50);
  },
 
     create: function create(){//aqui se- muestra todo
