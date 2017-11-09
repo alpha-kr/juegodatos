@@ -7,7 +7,7 @@ var principalV={
 
 	preload:function preload(){
 
- 	  // cargar los recursos
+ 	   cargar los recursos
  	  
  	  juego.load.image('suelo','img/platform.png');
       juego.load.image('jaula','assets/ja.png');
