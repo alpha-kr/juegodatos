@@ -1,4 +1,4 @@
-var juego=new Phaser.Game(1280,640,Phaser.AUTO,'bloqueJuego');
+		var juego=new Phaser.Game(1280,640,Phaser.AUTO,'bloqueJuego');
 var map;
 var layer;
 var sw=0,sw1=0,sw3=0;
@@ -16,7 +16,9 @@ var principalV={
       juego.load.image('tileset','assets/fondo1.png'); 
       juego.load.spritesheet('dk','assets/dktileset4.png', 71, 109);
       juego.load.image('barrildk','assets/barril3.png');
-      juego.load.spritesheet('personaje', 'assets/mario hpta.png', 24, 41);
+      //juego.load.spritesheet('personaje','img/4296.png',19,35);
+      juego.load.spritesheet('personaje','assets/image.png',19,40);
+      //juego.load.spritesheet('personaje', 'assets/mario hpta.png', 24, 41);
       juego.load.spritesheet('barriles','assets/barril1.png',37,42);
 
       //pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -65,9 +67,10 @@ var principalV={
 		jugador.body.gravity.y= 1000;
         jugador.jump=-1000;
 	    jugador.body.collideWorldBounds = true;
-		jugador.animations.add('left', [4,3,2,1,0], 10, true);
-		jugador.animations.add('right', [6,7,8,9,10,11], 10, true);
-
+		//jugador.animations.add('left', [4,3,2,1,0], 10, true);
+		//jugador.animations.add('right', [0,1,2,9,10,11], 10, true);
+ jugador.animations.add('right', [3,4,5,3], 10, true);
+ jugador.animations.add('left', [2,1,0,2], 5, true);
 
         barriles=juego.add.group();
         barriles.enableBody=true;
@@ -132,9 +135,11 @@ var principalV={
         if (cursors.left.isDown)
         {
             //  Move to the left
+
             jugador.body.velocity.x = -150;
             jugador.animations.play('left');
             sw=1;
+
         }
         else if (cursors.right.isDown)
         {
@@ -142,15 +147,16 @@ var principalV={
             jugador.body.velocity.x = 150;
             jugador.animations.play('right');
             sw=0;
+
         }
         else
         {
             //  Stand still
             jugador.animations.stop();
            if(sw==1){
-            jugador.frame=5;
+            jugador.frame=2;
            }else{
-            jugador.frame=6;
+            jugador.frame=3;
 
            }
 
@@ -204,7 +210,7 @@ function barrile(){
 var startscreen={
 preload:function(){
 
-juego.load.image('fondo1','img/Startscreen.png');
+juego.load.image('fondo1','img/pantalla inicial.png');
 juego.load.spritesheet('letras','img/letrasinicio.png',400,50);
 this.load.audio('intro','assets/intro.mp3');
 },
