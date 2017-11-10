@@ -91,7 +91,9 @@ render: function render() {
         
         juego.camera.setSize(1280,640);
         juego.camera.follow(jugador, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
-
+beers=juego.add.group();
+beers.enableBody=true;
+beers=polas();
 
 },
     
