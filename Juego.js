@@ -3,6 +3,7 @@ var map;
 var layer;
 var sw=0,sw1=0,sw3=0;
 var timer=0; 
+var stopTransition = false;
 var principalV={
 	/**Las monedas van a  hacer cervezas ya cree la funcion se llama polas
 	solo falta ponerla en las plataformas y que colisonen con el jugador
@@ -18,7 +19,7 @@ render: function render() {
 	preload:function preload(){
 
  	   //cargar los recursos
- 	  
+ 	   perdio:'',
  	  juego.load.image('suelo','img/platform.png');
       juego.load.image('jaula','assets/ja.png');
  	  juego.load.image('platformas','assets/plataforma.png');
@@ -31,6 +32,7 @@ render: function render() {
       //juego.load.spritesheet('personaje', 'assets/mario hpta.png', 24, 41);
       juego.load.spritesheet('barriles','assets/barril1.png',37,42);
       juego.load.spritesheet('beer','img/Food.png',34,32);
+      juego.load.audio('perdio','assets/perdida.mp3');
 
       //pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
       //juego.load.spritesheet('dkwalk','assets/dktileset1.png',49,50);
@@ -80,6 +82,7 @@ render: function render() {
 	    jugador.body.collideWorldBounds = true;
 		//jugador.animations.add('left', [4,3,2,1,0], 10, true);
 		//jugador.animations.add('right', [0,1,2,9,10,11], 10, true);
+perdio=juego.add.audio('perdio');
  jugador.animations.add('right', [3,4,5,3], 10, true);
  jugador.animations.add('left', [2,1,0,2], 5, true);
 
@@ -135,9 +138,11 @@ beers.forEach(function(beer1){
 },juego);
 
         barriles.forEach(function(barril) {
+            juego.physics.arcade.overlap(jugador,barril,colibarriles,null,this);   
             if(barril.position.y>=1090 && barril.position.x==0){
                 barril.kill();   
-            }   
+            }
+
         }, juego);
 
 
@@ -186,21 +191,23 @@ beers.forEach(function(beer1){
             jugador.body.velocity.y = jugador.jump;
         }
        
-   juego.physics.arcade.overlap(barriles,jugador,coli,null,this);      
+         
         
  
-}//, 
+} //, 
     //render: function render() {
 
         //juego.debug.cameraInfo(juego.camera, 32, 32);
         //juego.debug.spriteCoords(jugador, 32, 500);
     //},
+    
 
     
 };
-function coli(){
-  alert("la cagaste wey")
- 
+function colibarriles(jugador,barril){
+barril.kill();
+perdio.play();
+
 }
     
  
@@ -248,8 +255,11 @@ function barrile(){
 //incia el juego
 var startscreen={
 preload:function(){
+     juego.stage.backgroundColor = "#000000";
 botonsonido:'';
 musica:'';
+playmusica:'';
+this.load.audio('playM','assets/soundplay.mp3');
 this.load.audio('sboton','assets/moneda.mp3');
 juego.load.image('fondo1','img/pantalla inicial.png');
 juego.load.spritesheet('letras','img/letrasinicio.png',400,50);
@@ -258,22 +268,62 @@ this.load.audio('intro','assets/intro.mp3');
 create:function(){
  musica=juego.add.audio('intro');
  musica.play('',0,1,true);
-juego.add.sprite(0,0,'fondo1');
+var barkground=juego.add.tileSprite(0, 0, 1480, 920, 'fondo1');
 var botoninicio=this.add.button(juego.world.centerX,420, 'letras',this.start,this,2,0,1);
 botoninicio.anchor.set(0.5);
+playmusica=juego.add.audio('playM');
 this.botonsonido= juego.add.audio('sboton');
 }, 
 
 
 start:function(){
+    musica.destroy();
+    
 this.botonsonido.play('',0.3,1,false);
-musica.destroy();
-this.state.start('juego');
+ 
+scene_transition2('inicio',700);playmusica.play('',0,1,true);
+
+juego.camera.onFadeComplete.add(this.jugar, this);
+
 
 }
+,
+jugar:function(){
+this.state.start('juego');
+ juego.camera.resetFX();
+ }
 
     
 };
+//precarga
+var precarga={
+preload:function(){
+  juego.stage.backgroundColor = "#FFF";
+  juego.load.image('uninorte','assets/uninorte_logo.png');
+},
+create:function(){
+
+     var un = juego.add.image(juego.width/2, juego.height/2, 'uninorte', this);
+      un.anchor.setTo(0.5);
+      juego.camera.flash('#000000', 1900);
+      juego.camera.onFlashComplete.add(function(){
+      if(stopTransition == false){
+        setTimeout(function(){
+          scene_transition2('inicio', 1900);
+        },1900);
+        stopTransition = true;
+      }
+    }, juego);
+}
+
+
+
+
+};
+function scene_transition(Stage,time){juego.camera.fade("#000000",time||1000)};
+function scene_transition2(Stage,time){juego.camera.fade("#000000",time||500);juego.camera.onFadeComplete.add(function(){juego.state.start(Stage)},juego);};
+
+juego.state.add('prejuego',precarga)
 juego.state.add('juego',principalV);
  juego.state.add('inicio',startscreen);
-  juego.state.start('inicio');
+  juego.state.start('prejuego');
