@@ -128,7 +128,7 @@ var principalV={
         jugador.body.velocity.x = 0;
         juego.physics.arcade.collide(jugador,layer);
         juego.physics.arcade.collide(barriles, layer);
-        juego.physics.arcade.collide(barriles, jugador);
+        // juego.physics.arcade.collide(barriles, jugador);
         juego.physics.arcade.collide(barriles,plataformas);
         
 
@@ -168,7 +168,7 @@ var principalV={
             jugador.body.velocity.y = jugador.jump;
         }
        
-        
+   juego.physics.arcade.overlap(barriles,jugador,coli,null,this);      
         
 }//, 
     //render: function render() {
@@ -176,9 +176,13 @@ var principalV={
         //juego.debug.cameraInfo(juego.camera, 32, 32);
         //juego.debug.spriteCoords(jugador, 32, 500);
     //},
-     
-};
 
+    
+};
+function coli(){
+  alert("la cagaste wey")
+
+}
 function barrile(){
         //Math.floor(Math.random() * (max - min + 1) + min)
         velocidad=Math.floor(Math.random() * (425 - 200 + 1) + 200) ;
@@ -209,22 +213,26 @@ function barrile(){
 //incia el juego
 var startscreen={
 preload:function(){
-
+botonsonido:'';
+musica:'';
+this.load.audio('sboton','assets/moneda.mp3');
 juego.load.image('fondo1','img/pantalla inicial.png');
 juego.load.spritesheet('letras','img/letrasinicio.png',400,50);
 this.load.audio('intro','assets/intro.mp3');
 },
 create:function(){
-var musica=juego.add.audio('intro');
+ musica=juego.add.audio('intro');
  musica.play('',0,1,true);
 juego.add.sprite(0,0,'fondo1');
 var botoninicio=this.add.button(juego.world.centerX,420, 'letras',this.start,this,2,0,1);
 botoninicio.anchor.set(0.5);
-
+this.botonsonido= juego.add.audio('sboton');
 }, 
 
 
 start:function(){
+this.botonsonido.play('',0.3,1,false);
+musica.destroy();
 this.state.start('juego');
 
 }
