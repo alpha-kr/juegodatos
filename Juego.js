@@ -4,7 +4,17 @@ var layer;
 var sw=0,sw1=0,sw3=0;
 var timer=0; 
 var principalV={
+	/**Las monedas van a  hacer cervezas ya cree la funcion se llama polas
+	solo falta ponerla en las plataformas y que colisonen con el jugador
+	Brandon Gonzalez 200088352 ing de sistemas 
 
+	Universidad del Norte**/
+
+render: function render() {
+
+        juego.debug.cameraInfo(juego.camera, 32, 32);
+        juego.debug.spriteCoords(jugador, 32, 500);
+   },
 	preload:function preload(){
 
  	   //cargar los recursos
@@ -20,6 +30,7 @@ var principalV={
       juego.load.spritesheet('personaje','assets/image.png',19,40);
       //juego.load.spritesheet('personaje', 'assets/mario hpta.png', 24, 41);
       juego.load.spritesheet('barriles','assets/barril1.png',37,42);
+      juego.load.spritesheet('beer','img/Food.png',34,32);
 
       //pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
       //juego.load.spritesheet('dkwalk','assets/dktileset1.png',49,50);
@@ -80,9 +91,10 @@ var principalV={
         
         juego.camera.setSize(1280,640);
         juego.camera.follow(jugador, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+beers=juego.add.group();
+beers.enableBody=true;
+beers=polas();
 
-        
-        
 },
     
     update:function update(){
@@ -117,6 +129,10 @@ var principalV={
             }
             dk.animations.stop();
         }*/
+beers.forEach(function(beer1){
+
+	beer1.animations.play('girar');
+},juego);
 
         barriles.forEach(function(barril) {
             if(barril.position.y>=1090 && barril.position.x==0){
@@ -124,12 +140,14 @@ var principalV={
             }   
         }, juego);
 
+
         var hitPlatform = juego.physics.arcade.collide(jugador,plataformas);
         jugador.body.velocity.x = 0;
         juego.physics.arcade.collide(jugador,layer);
         juego.physics.arcade.collide(barriles, layer);
         // juego.physics.arcade.collide(barriles, jugador);
         juego.physics.arcade.collide(barriles,plataformas);
+        juego.physics.arcade.collide(beers,layer);
         
 
         if (cursors.left.isDown)
@@ -170,6 +188,7 @@ var principalV={
        
    juego.physics.arcade.overlap(barriles,jugador,coli,null,this);      
         
+<<<<<<< HEAD
 }//, 
     //render: function render() {
 
@@ -181,6 +200,23 @@ var principalV={
 };
 function coli(){
   alert("la cagaste wey")
+=======
+}, 
+    
+     
+};
+function polas(){
+// se deben crear 10 cervezas por todo el mapa
+beer1=juego.add.sprite(350,920,'beer');
+beer1.animations.add('girar',[0,1,2,3,4],5,true);//TODO:intentar hacer que giren completo
+beers.add(beer1);
+beer1.body.gravity.y=2000;
+
+
+
+return beers;
+}
+>>>>>>> origin
 
 }
 function barrile(){
