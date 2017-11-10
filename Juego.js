@@ -188,7 +188,7 @@ beers.forEach(function(beer1){
        
    juego.physics.arcade.overlap(barriles,jugador,coli,null,this);      
         
-<<<<<<< HEAD
+ 
 }//, 
     //render: function render() {
 
@@ -200,11 +200,10 @@ beers.forEach(function(beer1){
 };
 function coli(){
   alert("la cagaste wey")
-=======
-}, 
+ 
+}
     
-     
-};
+ 
 function polas(){
 // se deben crear 10 cervezas por todo el mapa
 beer1=juego.add.sprite(350,920,'beer');
@@ -216,9 +215,9 @@ beer1.body.gravity.y=2000;
 
 return beers;
 }
->>>>>>> origin
+ 
 
-}
+ 
 function barrile(){
         //Math.floor(Math.random() * (max - min + 1) + min)
         velocidad=Math.floor(Math.random() * (425 - 200 + 1) + 200) ;
