@@ -4,6 +4,7 @@ var layer;
 var sw=0,sw1=0,sw3=0;
 var timer=0; 
 var stopTransition = false;
+var monedas=0;
 var principalV={
 	/**Las monedas van a  hacer cervezas ya cree la funcion se llama polas
 	solo falta ponerla en las plataformas y que colisonen con el jugador
@@ -207,6 +208,8 @@ beers.forEach(function(beer1){
 function colibarriles(jugador,barril){
 barril.kill();
 perdio.play();
+playmusica.stop();
+juego.state.start('perd');
 
 }
     
@@ -320,10 +323,28 @@ create:function(){
 
 
 };
+var gameover={
+preload:function(){
+
+juego.load.image('perdi','assets/maxresdefault.jpg');
+
+},
+create:function(){
+   var b= juego.add.tileSprite(0,0,1280, 640, 'perdi');
+
+ 
+    var text=juego.add.text(juego.width/2,800,"PRESIONE ALGO PARA VOLVER A EMPEZAR",{
+     font:"bold 15px sans-serif",fill:"black",align:"center" });
+    text.anchor.setTo(0.5);
+}
+
+
+
+};
 function scene_transition(Stage,time){juego.camera.fade("#000000",time||1000)};
 function scene_transition2(Stage,time){juego.camera.fade("#000000",time||500);juego.camera.onFadeComplete.add(function(){juego.state.start(Stage)},juego);};
-
+juego.state.add('perd',gameover);
 juego.state.add('prejuego',precarga)
 juego.state.add('juego',principalV);
  juego.state.add('inicio',startscreen);
-  juego.state.start('prejuego');
+  juego.state.start('perd');
