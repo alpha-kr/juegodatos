@@ -280,7 +280,7 @@ this.botonsonido= juego.add.audio('sboton');
 
 
 start:function(){
-    musica.destroy();
+    musica.stop();
     
 this.botonsonido.play('',0.3,1,false);
  
@@ -324,6 +324,7 @@ create:function(){
 
 };
 var gameover={
+    saltar:'',
 preload:function(){
 
 juego.load.image('perdi','assets/maxresdefault.jpg');
@@ -332,10 +333,17 @@ juego.load.image('perdi','assets/maxresdefault.jpg');
 create:function(){
    var b= juego.add.tileSprite(0,0,1280, 640, 'perdi');
 
- 
-    var text=juego.add.text(juego.width/2,800,"PRESIONE ALGO PARA VOLVER A EMPEZAR",{
-     font:"bold 15px sans-serif",fill:"black",align:"center" });
+  saltar = juego.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    var text=juego.add.text(juego.width/2,400,"Presione una tecla para volver a empezar",{
+     font:"bold 19px sans-serif",fill:"White",align:"center" });
     text.anchor.setTo(0.5);
+},
+update:function(){
+ if(saltar.isDown){
+  juego.state.start('juego');
+ 
+};
+
 }
 
 
@@ -347,4 +355,4 @@ juego.state.add('perd',gameover);
 juego.state.add('prejuego',precarga)
 juego.state.add('juego',principalV);
  juego.state.add('inicio',startscreen);
-  juego.state.start('perd');
+  juego.state.start('prejuego');
