@@ -341,6 +341,9 @@ create:function(){
 update:function(){
  if(saltar.isDown){
   juego.state.start('juego');
+  perdio.stop();
+  playmusica.play('',0,1,true);
+
  
 };
 
