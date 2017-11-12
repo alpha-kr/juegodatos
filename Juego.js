@@ -22,17 +22,19 @@ var principalV={
       juego.load.image('tileset','assets/fondo1.png'); 
       juego.load.spritesheet('dk','assets/dktileset4.png', 71, 109);
       juego.load.image('barrildk','assets/barril3.png');  
-      juego.load.spritesheet('princess','assets/princessMECANICAA.png',48,71);
+      juego.load.spritesheet('princess','assets/princessMECANICAA.png',48,70);
       //juego.load.spritesheet('personaje','assets/marioporfin.png',36,54);
       juego.load.spritesheet('personaje','assets/mario andy.png',38,48);
       juego.load.spritesheet('barriles','assets/barril1.png',37,42);
       juego.load.spritesheet('beer','img/Food.png',34,32);
-      juego.load.audio('perdio','assets/perdida.mp3');
+      juego.load.audio('perdio','assets/perdida.mp3');    juego.load.audio('salte','assets/Super mario Bros. (el salto de mario)  Efecto de sonido (1).mp3');
 
  },
 
     create: function create(){//aqui se- muestra todo
         //----Mapa----
+        sounsalto:'',
+      
         map= juego.add.tilemap('map',32,32);
         map.addTilesetImage('tileset');
         map.addTilesetImage('jaula');
@@ -62,14 +64,14 @@ var principalV={
         jugador = juego.add.sprite(0, juego.world.height-150, 'personaje');//mostrare el personaje
  	    juego.physics.arcade.enable(jugador);
  	    jugador.body.bounce.y=0.1;
-		jugador.body.gravity.y= 1000;
-        jugador.jump=-1000;
+		jugador.body.gravity.y= 2200;
+        jugador.jump=-890;
 	    jugador.body.collideWorldBounds = true;
         perdio=juego.add.audio('perdio');
-        jugador.animations.add('right', [4,1,0,3,5], 10, true);
-        jugador.animations.add('left', [7,11,6], 10, true);
-
-        die=jugador.animations.add('die',[3,4,5,6],5,false);
+        jugador.animations.add('right', [4,1,0,3,0,1,4], 15, true);
+        jugador.animations.add('left',  [7,11,10,8,10,11,7], 15, true);
+      
+        die=jugador.animations.add('die',[2],5,false);
         
 
 
@@ -98,7 +100,7 @@ var principalV={
         //---Camara---
         juego.camera.setSize(1280,640);
         juego.camera.follow(jugador, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
-        
+        sounsalto=juego.add.audio('salte');
         
 
         //---Monedas---
@@ -179,51 +181,67 @@ var principalV={
         
 
         //---Controles----
-        if (cursors.left.isDown)
+        if (cursors.left.isDown )
         {
             //  Move to the left
-            jugador.body.velocity.x = -350;
+            if (!(jugador.body.touching.down || jugador.body.onFloor() )) {
+
+            jugador.animations.play('saltoIzq');
+            jugador.body.velocity.x = -500;
+            sw=1;
+            }else{
+            jugador.body.velocity.x = -500;
             jugador.animations.play('left');
             sw=1;
-            if (sw==1) {
 
-               jugador.animations.play('saltoIzq');
             }
+            
+         
 
         }
         else if (cursors.right.isDown)
         {
             //  Move to the right
            
-            jugador.body.velocity.x = 350;
+            if (!(jugador.body.touching.down || jugador.body.onFloor() )) {
+
+            jugador.animations.play('saltoDer');
+            jugador.body.velocity.x = +500;
+            sw=0;
+            }else{
+            jugador.body.velocity.x = +500;
             jugador.animations.play('right');
-            if (sw==1) {
-                jugador.animations.play('saltoDer');
-            }
             sw=0;
 
+            }
 
-        }
-        else
-        {
-            //  Stand still
-            if(sw==1){
-                jugador.animations.stop();
+
+        }else{
+
+                if (sw==0 && (jugador.body.touching.down || jugador.body.onFloor() )) {
+                    jugador.animations.stop();
+                jugador.frame=4;
+                }else{
+                    if (sw==1 && (jugador.body.touching.down || jugador.body.onFloor() )) {
+ 
+                   jugador.animations.stop();
                 jugador.frame=7;
-            }
-            if(sw==0){
-                jugador.animations.stop();
-                jugador.frame=1;
-            }
-           
+                     }
+                }
+
+
         }
-
-
-        if (cursors.up.isDown && (jugador.body.touching.down || jugador.body.onFloor() ) )
-        {
-            jugador.body.velocity.y = jugador.jump;
+           if( cursors.up.isDown && (jugador.body.touching.down || jugador.body.onFloor() )){
+                 jugador.body.velocity.y = jugador.jump;
+                 if (sw==0) { jugador.animations.play('saltoDer');}else{if (sw==1) { jugador.animations.play('saltoIzq');}}
+               sounsalto.play('',0,0.5,false);        
+            } 
             
-        }
+           
+        
+
+
+        
        
          
         
@@ -242,13 +260,14 @@ var principalV={
 function colibarriles(jugador,barril,hitPlatform){
     sw=3;
     barril.kill();
-    //perdio.play();
-    //playmusica.stop();
-    //die.play();
+    perdio.play();
+     playmusica.stop();
+     die.play();
 
 
-  /*  
+    
     animaci = juego.add.tween(die);
+    jugador.angle=45;
     animaci.to({ y: jugador.position.y,x:jugador.position.x }, 1000, null,this);
     animaci.start();
     animaci.onComplete.add(function() { 
@@ -258,8 +277,8 @@ function colibarriles(jugador,barril,hitPlatform){
             juego.state.start('perd');}      
         }, this);
 
-    //juego.state.start('perd');
- */
+     juego.state.start('perd');
+ 
 }
 
 function coliprincess(jugador,princess){
@@ -272,7 +291,7 @@ function coliprincess(jugador,princess){
     anima.to({ y: princess.position.y,x:princess.position.x }, 1000, null,this);
     anima.start();
     anima.onComplete.add(function() { 
-            console.log('MECANICAAAAAAAAAAAAAAAAAA');
+             
             if(happy.isFinished){
             jugador.body.gravity.y= 1000;
             juego.state.start('win');} 
@@ -312,7 +331,7 @@ function polas(){
  
 function barrile(){
         //Math.floor(Math.random() * (max - min + 1) + min)
-       /* velocidad=Math.floor(Math.random() * (425 - 200 + 1) + 200) ;
+        velocidad=Math.floor(Math.random() * (425 - 200 + 1) + 200) ;
         if (sw1==0) {
             //barril=barriles.create(560,79,'barriles');
             barril=juego.add.sprite(560,79,'barriles');
@@ -334,7 +353,7 @@ function barrile(){
         barril.body.collideWorldBounds= true;
         barril.body.bounce.setTo(1,0);
         barril.body.gravity.y=2000;
-        timer= juego.time.now + 1950;*/
+        timer= juego.time.now + 1950;
         return barriles;
     }
 //incia el juego
@@ -417,7 +436,7 @@ var gameover={
         var b= juego.add.tileSprite(0,0,1280, 640, 'perdi');
 
         saltar = juego.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        var text=juego.add.text(juego.width/2,400,"Presione una tecla para volver a empezar",{
+        var text=juego.add.text(juego.width/2,380,"Presione una tecla para volver a empezar",{
         font:"bold 19px sans-serif",fill:"White",align:"center" });
         text.anchor.setTo(0.5);
     },
@@ -457,4 +476,4 @@ juego.state.add('prejuego',precarga);
 juego.state.add('juego',principalV);
 juego.state.add('inicio',startscreen);
 juego.state.add('win',winSports);
-  juego.state.start('juego');
+  juego.state.start('prejuego');
