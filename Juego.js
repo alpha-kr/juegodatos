@@ -71,7 +71,7 @@ var principalV={
         jugador.animations.add('right', [4,1,0,3,0,1,4], 15, true);
         jugador.animations.add('left',  [7,11,10,8,10,11,7], 15, true);
       
-        die=jugador.animations.add('die',[2],5,false);
+        die=jugador.animations.add('die',[2],1,false);
         
 
 
@@ -267,17 +267,17 @@ function colibarriles(jugador,barril,hitPlatform){
 
     
     animaci = juego.add.tween(die);
-    jugador.angle=45;
+    jugador.angle=90;
     animaci.to({ y: jugador.position.y,x:jugador.position.x }, 1000, null,this);
     animaci.start();
     animaci.onComplete.add(function() { 
 
             if(die.isFinished){
             jugador.body.gravity.y= 1000;
-            juego.state.start('perd');}      
+           scene_transition2('perd',500)}      
         }, this);
 
-     juego.state.start('perd');
+     
  
 }
 
