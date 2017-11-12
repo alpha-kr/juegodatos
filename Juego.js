@@ -186,9 +186,10 @@ var principalV={
         
 
         //---Controles----
-        if (cursors.left.isDown )
+         if (cursors.left.isDown )
         {
             //  Move to the left
+            if(sw!=2){
             if (!(jugador.body.touching.down || jugador.body.onFloor() )) {
 
             jugador.animations.play('saltoIzq');
@@ -200,6 +201,7 @@ var principalV={
             sw=1;
 
             }
+        }
             
          
 
@@ -207,7 +209,7 @@ var principalV={
         else if (cursors.right.isDown)
         {
             //  Move to the right
-           
+           if(sw!=2){
             if (!(jugador.body.touching.down || jugador.body.onFloor() )) {
 
             jugador.animations.play('saltoDer');
@@ -219,9 +221,10 @@ var principalV={
             sw=0;
 
             }
-
+}
 
         }else{
+            if(sw!=2){
 
                 if (sw==0 && (jugador.body.touching.down || jugador.body.onFloor() )) {
                     jugador.animations.stop();
@@ -232,15 +235,17 @@ var principalV={
                    jugador.animations.stop();
                 jugador.frame=7;
                      }
-                }
+                }}
 
 
         }
            if( cursors.up.isDown && (jugador.body.touching.down || jugador.body.onFloor() )){
+                if(sw!=2){
                  jugador.body.velocity.y = jugador.jump;
                  if (sw==0) { jugador.animations.play('saltoDer');}else{if (sw==1) { jugador.animations.play('saltoIzq');}}
-               sounsalto.play('',0,0.5,false);        
+               sounsalto.play('',0,0.5,false); }       
             } 
+            
             
            
         
@@ -263,7 +268,7 @@ var principalV={
     
 };
 function colibarriles(jugador,barril,hitPlatform){
-    sw=3;
+     sw=2;
     barril.kill();
     perdio.play();
      playmusica.stop();
@@ -289,19 +294,10 @@ function colibarriles(jugador,barril,hitPlatform){
 function coliprincess(jugador,princess){
     //Todo: cuando gana
     //juego.state.start('win');
-    sw=2;
-    princess.animations.stop();
+   sw=2;
+    
     happy.play();
-    anima = juego.add.tween(happy);
-    anima.to({ y: princess.position.y,x:princess.position.x }, 1000, null,this);
-    anima.start();
-    anima.onComplete.add(function() { 
-             
-            if(happy.isFinished){
-            jugador.body.gravity.y= 1000;
-            juego.state.start('win');} 
-                 
-        }, this);
+    scene_transition2('win',4500);
 }
 
 function colibeers(jugador,beer){
@@ -450,6 +446,7 @@ var gameover={
     update:function(){
         if(saltar.isDown){
             juego.state.start('juego');
+            sw=0;
             perdio.stop();
             playmusica.play('',0,1,true);
 
@@ -471,9 +468,24 @@ var winSports={
         musicaWin=juego.add.audio('gano');
         juego.add.tileSprite(0,0,1280, 680, 'gan');
         musicaWin.play();
-    },
 
+sw=0;
+        saltar = juego.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        var text=juego.add.text(juego.width/2,380,"Presione una tecla para volver a empezar",{
+        font:"bold 19px sans-serif",fill:"Black",align:"center" });
+        text.anchor.setTo(0.5);
+    },
+    update:function(){
+        if(saltar.isDown){
+            juego.state.start('juego');
+            sw=0;
+            musicaWin.stop();
+           playmusica.play('',0,1,true);
+
+        }
+},
 };
+
 
 
 function scene_transition(Stage,time){juego.camera.fade("#000000",time||1000)};
