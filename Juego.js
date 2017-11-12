@@ -6,6 +6,7 @@ var timer=0;
 var stopTransition = false;
 var monedas=0;
 var beerCont=0;
+ var soundbeer;
 var principalV={
 	/*
 
@@ -15,6 +16,7 @@ var principalV={
 
  	   //cargar los recursos
  	   perdio:'',
+
  	  juego.load.image('suelo','img/platform.png');
       juego.load.image('jaula','assets/ja.png');
  	  juego.load.image('platformas','assets/plataforma.png');
@@ -24,6 +26,7 @@ var principalV={
       juego.load.image('barrildk','assets/barril3.png');  
       juego.load.spritesheet('princess','assets/princessMECANICAA.png',48,70);
       //juego.load.spritesheet('personaje','assets/marioporfin.png',36,54);
+      juego.load.audio('cerveza','assets/beer.mp3');
       juego.load.spritesheet('personaje','assets/mario andy.png',38,48);
       juego.load.spritesheet('barriles','assets/barril1.png',37,42);
       juego.load.spritesheet('beer','img/Food.png',34,32);
@@ -34,6 +37,7 @@ var principalV={
     create: function create(){//aqui se- muestra todo
         //----Mapa----
         sounsalto:'',
+       
       
         map= juego.add.tilemap('map',32,32);
         map.addTilesetImage('tileset');
@@ -44,6 +48,7 @@ var principalV={
         jugador:'',
         map.setCollisionBetween(0,0);
         map.setCollisionBetween(6,8);
+       soundbeer= juego.add.audio('cerveza');
 
  	    juego.physics.startSystem(Phaser.Physics.ARCADE);
         juego.world.setBounds(0, 0, 1280, 1200);
@@ -302,6 +307,7 @@ function coliprincess(jugador,princess){
 function colibeers(jugador,beer){
     beer.kill();
     beerCont++;
+    soundbeer.play('',0,0.5,false); 
     scoreText.text = 'Score: ' + beerCont;
 }
     
