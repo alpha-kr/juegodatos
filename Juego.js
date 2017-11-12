@@ -37,7 +37,7 @@ var principalV={
     create: function create(){//aqui se- muestra todo
         //----Mapa----
         sounsalto:'',
-       
+          beerCont=0;
       
         map= juego.add.tilemap('map',32,32);
         map.addTilesetImage('tileset');
@@ -367,6 +367,7 @@ function barrile(){
 //----Pantalla de inicio-----
 var startscreen={
     preload:function(){
+     
         juego.stage.backgroundColor = "#000000";
         botonsonido:'';
         musica:'';
