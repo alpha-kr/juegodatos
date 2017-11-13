@@ -18,10 +18,12 @@ var principalV={
  	   perdio:'',
 
  	  juego.load.image('suelo','img/platform.png');
-      juego.load.image('jaula','assets/ja.png');
+      //juego.load.image('jaula','assets/ja.png');
  	  juego.load.image('platformas','assets/plataforma.png');
-      juego.load.tilemap('map',"assets/mapaPrueba.csv"); 
-      juego.load.image('tileset','assets/fondo1.png'); 
+      //juego.load.tilemap('map',"assets/mapaPrueba.csv"); 
+      juego.load.tilemap('map','assets/mapa2.csv');
+      //juego.load.image('tileset','assets/fondo1.png'); 
+      juego.load.image('tileset','assets/fondo2.png');
       juego.load.spritesheet('dk','assets/dktileset4.png', 71, 109);
       juego.load.image('barrildk','assets/barril3.png');  
       juego.load.spritesheet('princess','assets/princessMECANICAA.png',48,70);
@@ -41,13 +43,13 @@ var principalV={
       
         map= juego.add.tilemap('map',32,32);
         map.addTilesetImage('tileset');
-        map.addTilesetImage('jaula');
+        //map.addTilesetImage('jaula');
         map.addTilesetImage('platformas');
         layer = map.createLayer(0);
         layer.resizeWorld();
         jugador:'',
         map.setCollisionBetween(0,0);
-        map.setCollisionBetween(6,8);
+        //map.setCollisionBetween(6,8);
        soundbeer= juego.add.audio('cerveza');
 
  	    juego.physics.startSystem(Phaser.Physics.ARCADE);
