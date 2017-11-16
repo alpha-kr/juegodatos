@@ -20,10 +20,10 @@ var principalV={
  	  juego.load.image('suelo','img/platform.png');
       //juego.load.image('jaula','assets/ja.png');
  	  juego.load.image('platformas','assets/plataforma.png');
-      //juego.load.tilemap('map',"assets/mapaPrueba.csv"); 
-      juego.load.tilemap('map','assets/mapa2.csv');
-      //juego.load.image('tileset','assets/fondo1.png'); 
-      juego.load.image('tileset','assets/fondo2.png');
+      juego.load.tilemap('map',"assets/mapaPrueba.csv"); 
+      //juego.load.tilemap('map','assets/mapa2.csv');
+      juego.load.image('tileset','assets/fondo1.png'); 
+      //juego.load.image('tileset','assets/fondo2.png');
       juego.load.spritesheet('dk','assets/dktileset4.png', 71, 109);
       juego.load.image('barrildk','assets/barril3.png');  
       juego.load.spritesheet('princess','assets/princessMECANICAA.png',48,70);
@@ -37,7 +37,6 @@ var principalV={
  },
 
     create: function create(){//aqui se- muestra todo
-        //----Mapa----
         sounsalto:'',
           beerCont=0;
       
@@ -49,7 +48,6 @@ var principalV={
         layer.resizeWorld();
         jugador:'',
         map.setCollisionBetween(0,0);
-        //map.setCollisionBetween(6,8);
        soundbeer= juego.add.audio('cerveza');
 
  	    juego.physics.startSystem(Phaser.Physics.ARCADE);
@@ -127,8 +125,7 @@ var principalV={
 
         //----Barriles y DonkeyKong---
         if(juego.time.now > timer){
-            //dkwalk.animations.stop();//prueeeeeeeeeeeeeeeeeeeeeeeeebaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            //dkwalk.frame=0;//pppppp  
+            
             
             if (sw1==1) {
                 dk.animations.play('right');
@@ -137,24 +134,7 @@ var principalV={
             }
             
             barriles=barrile();
-        }/*else{
-
-            if (dkwalk.position.x==610) {
-                sw3=1;
-            }else if(dkwalk.position.x==446){
-                sw3=0;    
-            }
-            //dk.animations.stop();//prueeeeeeeeeeeeeeeeeeeeeeeeebaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            //dk.frame=0;//pppppp
-            if (sw3==0) {
-                dkwalk.animations.play('walk');//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                dkwalk.position.x-= -1;
-            }else{
-                dkwalk.animations.play('walk');
-                dkwalk.position.x-=1;
-            }
-            dk.animations.stop();
-        }*/
+        }
 
         barriles.forEach(function(barril) {
             juego.physics.arcade.overlap(jugador,barril,colibarriles,null,this);   
@@ -258,14 +238,14 @@ var principalV={
          
         
  
-} //, 
-    //render: function render() {
+	} //, 
+	    //render: function render() {
 
-        //juego.debug.cameraInfo(juego.camera, 32, 32);
-        //juego.debug.spriteCoords(jugador, 32, 500);
+	        //juego.debug.cameraInfo(juego.camera, 32, 32);
+	        //juego.debug.spriteCoords(jugador, 32, 500);
 
-    //},
-    
+	    //},
+	    
 
     
 };
@@ -441,7 +421,7 @@ var gameover={
         var b= juego.add.tileSprite(0,0,1280, 640, 'perdi');
 
         saltar = juego.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        var text=juego.add.text(juego.width/2,380,"Presione una tecla para volver a empezar",{
+        var text=juego.add.text(juego.width/2,380,"Presione barra espaciadora para volver a empezar",{
         font:"bold 19px sans-serif",fill:"White",align:"center" });
         text.anchor.setTo(0.5);
     },
@@ -473,7 +453,7 @@ var winSports={
 
 sw=0;
         saltar = juego.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        var text=juego.add.text(juego.width/2,380,"Presione una tecla para volver a empezar",{
+        var text=juego.add.text(juego.width/2,380,"Presione barra espaciadora para volver a empezar",{
         font:"bold 19px sans-serif",fill:"Black",align:"center" });
         text.anchor.setTo(0.5);
     },
