@@ -147,6 +147,7 @@ var principalV={
         //---Monedas---
         if (sw4==0) {
         beers.forEach(function(beer1){
+
 	    beer1.animations.play('girar');},juego);
         sw4=1;
         }
@@ -412,7 +413,7 @@ var precarga={
 var gameover={
     saltar:'',
     preload:function(){
-
+sw4=0;
         juego.load.image('perdi','assets/maxresdefault.jpg');
 
     },
@@ -443,6 +444,7 @@ var winSports={
         musicaWin:'',
         juego.load.audio('gano','assets/Defeat.mp3');
         juego.load.image('gan','assets/YOUWIN2.png');
+        sw4=0;
 
     },
 
